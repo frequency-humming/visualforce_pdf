@@ -1,0 +1,26 @@
+<apex:page title="Details" controller="AccountPDFController" >
+    
+    <apex:form >
+    	<apex:outputLabel > Enter name for User Report </apex:outputLabel>
+        <apex:inputText value="{!name}"/>
+        <apex:commandButton value="Show User Report" action="{!allvalues}" reRender="show" />
+    </apex:form> 
+    
+    <apex:form >
+        <apex:pageBlock id="show">
+            
+            <apex:pageBlockTable frame="border" value="{!users}" var="u">
+                <apex:column value="{!u.FirstName}" />
+                <apex:column value="{!u.LastName}" />
+                <apex:column value="{!u.Email}" />
+                <apex:column >
+                    <apex:facet name="header">Select User for Report</apex:facet>
+                    <apex:commandButton value="Select User" action="{!sendReport}" reRender="dummyId"> 
+                		<apex:param name="userID" value="{!u.id}" assignTo="{!id}"/>
+                    </apex:commandButton>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>
