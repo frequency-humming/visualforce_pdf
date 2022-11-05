@@ -14,13 +14,14 @@ public class AccountPDFController {
     public AccountPDFController(){
         data = 'No data for selected User';
        	List<User> tempUser = new List<User>();
-        User user = new User();
         id = UserInfo.getUserId();
+        User user = new User();  
         user.Id = id;
         user.FirstName = UserInfo.getFirstName();
         user.LastName = UserInfo.getLastName();
         user.Email = UserInfo.getUserEmail();
         tempUser.add(user);
+        this.name = UserInfo.getName();
         users = tempUser;
         sendReport();
     }
@@ -65,17 +66,14 @@ public class AccountPDFController {
         }
         
          ContentVersion con = new ContentVersion();
-         con.Title = 'testing.pdf';
+         con.Title = this.name+' ActivityReport '+System.now()+'.pdf';
          con.VersionData = reportPDF;
-         con.PathOnClient = 'testing.pdf';
+         con.PathOnClient = this.name+' ActivityReport '+System.now()+'.pdf';
          con.ContentLocation = 'S';
          
          insert con;
          system.debug('file : '+con);
 
-        return reportPage; // returns the visualforce page 
+        return reportPage; // Stay on same page, even on success
     }
-
-    
-
 }
