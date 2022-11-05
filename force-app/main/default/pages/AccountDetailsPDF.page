@@ -1,0 +1,82 @@
+<apex:page title="Details" controller="AccountPDFController" >
+    <apex:form >
+        <div style="text-align:center;">
+            <apex:outputLabel > Enter name for User Report </apex:outputLabel>
+        </div>
+        <br/>
+        <div style="text-align:center;">
+            <apex:inputText value="{!name}"/>
+        </div>
+        <br/>
+        <div style="text-align:center;">
+            <apex:commandButton value="Show User Report" action="{!allvalues}" reRender="show,userData,userSession" />
+        </div>
+        <br/>
+    </apex:form> 
+      
+    <apex:form >
+        <apex:pageBlock id="show">            
+            <apex:pageBlockTable frame="border" value="{!users}" var="u" rendered="{!IF(users.empty,false,true)}">
+                <apex:column value="{!u.FirstName}" />
+                <apex:column value="{!u.LastName}" />
+                <apex:column value="{!u.Email}" />
+                <apex:column >
+                    <apex:facet name="header">Select User for Report</apex:facet>
+                    <apex:commandButton value="Select User" action="{!sendReport}" reRender="userData,userSession"> 
+                        <apex:param name="userID" value="{!u.id}" assignTo="{!id}"/>
+                    </apex:commandButton>
+                </apex:column>
+            </apex:pageBlockTable>
+            <apex:outputpanel rendered="{!users.empty}">
+               <h1>No users</h1>
+            </apex:outputpanel>
+        </apex:pageBlock>
+    </apex:form>
+      
+    <apex:form >
+        <apex:pageBlock id="userData">  
+            <apex:pageBlockTable frame="border" value="{!history}" var="u" rendered="{!IF(history.empty,false,true)}"> 
+                <apex:column value="{!u.ApiType}" />
+                <apex:column value="{!u.ApiVersion}" />
+                <apex:column value="{!u.Application}" />
+                <apex:column value="{!u.AuthMethodReference}" />
+                <apex:column value="{!u.AuthenticationServiceId}" />
+                <apex:column value="{!u.Browser}" />
+                <apex:column value="{!u.CipherSuite}" />
+                <apex:column value="{!u.ClientVersion}" />
+                <apex:column value="{!u.LoginTime}" />
+                <apex:column value="{!u.LoginType}" />
+                <apex:column value="{!u.LoginUrl}" />
+                <apex:column value="{!u.Platform}" />
+                <apex:column value="{!u.SourceIp}" />
+                <apex:column value="{!u.Status}" />
+                <apex:column value="{!u.TlsProtocol}" />
+            </apex:pageBlockTable>
+            <apex:outputpanel rendered="{!history.empty}">
+               <h1>{!data}</h1>
+            </apex:outputpanel>  
+        </apex:pageBlock>
+    </apex:form>
+    <apex:form >
+        <apex:pageBlock id="userSession">
+            <apex:pageBlockTable frame="border" value="{!logingeo}" var="u" rendered="{!IF(history.empty,false,true)}">
+                <apex:column value="{!u.City}" />
+                <apex:column value="{!u.Subdivision}" />
+                <apex:column value="{!u.PostalCode}" />
+                <apex:column value="{!u.Country}" />             
+                <apex:column value="{!u.CountryIso}" />
+                <apex:column value="{!u.Latitude}" />
+                <apex:column value="{!u.Longitude}" />
+                <apex:column value="{!u.LoginTime}" />
+            </apex:pageBlockTable>
+            <apex:outputpanel rendered="{!history.empty}">
+               <h1>{!data}</h1>
+            </apex:outputpanel>
+            <div style="text-align:center;">
+                <br/>
+            	<apex:commandButton value="Create PDF" action="{!createPDF}" rendered="{!NOT(history.empty)}"/>
+                <br/>
+            </div>
+        </apex:pageBlock>
+    </apex:form>   
+</apex:page>
