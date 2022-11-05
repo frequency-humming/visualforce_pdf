@@ -74,6 +74,6 @@ public class AccountPDFController {
          insert con;
          system.debug('file : '+con);
 
-        return reportPage; // Stay on same page, even on success
+        return reportPage; // Returns the visualforce page
     }
 }
