@@ -38,7 +38,7 @@ public class AccountPDFController {
     }
     
     public void sendReport(){
-        allvalues();
+        users = [SELECT ID, FirstName, LastName, Email,CompanyName,Profile.name, Userrole.name  FROM USER WHERE ID = :this.id];
         Map<ID,LoginHistory> hisTemp = new Map<ID,LoginHistory>();
         history = new List<LoginHistory>();
         loginGeo = new List<LoginGeo>();
