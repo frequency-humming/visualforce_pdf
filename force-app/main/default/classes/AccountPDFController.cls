@@ -23,7 +23,6 @@ public class AccountPDFController {
         tempUser.add(user);
         this.name = UserInfo.getName();
         users = tempUser;
-        sendReport();
     }
     
     public void setname(String username){
@@ -34,11 +33,12 @@ public class AccountPDFController {
         data = 'Select a User';
         history = new List<LoginHistory>();
         String newSearch = '%'+this.name+'%';
-        users = [SELECT ID, FirstName, LastName, Email FROM USER WHERE NAME LIKE :newSearch];
+        users = [SELECT ID, FirstName, LastName, Email,CompanyName,Profile.name, Userrole.name  FROM USER WHERE NAME LIKE :newSearch];
         system.debug('user '+users);
     }
     
     public void sendReport(){
+        allvalues();
         Map<ID,LoginHistory> hisTemp = new Map<ID,LoginHistory>();
         history = new List<LoginHistory>();
         loginGeo = new List<LoginGeo>();
@@ -54,7 +54,7 @@ public class AccountPDFController {
     }
     
      public PageReference createPDF() {
-                     
+               
         // Create PDF
         PageReference reportPage = new PageReference('/apex/UserAccountPDF');
         Blob reportPdf;
@@ -73,7 +73,9 @@ public class AccountPDFController {
          
          insert con;
          system.debug('file : '+con);
+         PageReference FilePage = new PageReference('/lightning/o/ContentDocument/home');
+         FilePage.setRedirect(true);
 
-        return reportPage; // Returns the visualforce page
+         return FilePage; // Redirects to the File tab
     }
 }
