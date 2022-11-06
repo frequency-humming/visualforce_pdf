@@ -12,7 +12,8 @@ public class AccountPDFController {
     }
     
     public AccountPDFController(){
-        data = 'No data for selected User';
+        data = 'Select a User';
+        history = new List<LoginHistory>();
        	List<User> tempUser = new List<User>();
         id = UserInfo.getUserId();
         User user = new User();  
