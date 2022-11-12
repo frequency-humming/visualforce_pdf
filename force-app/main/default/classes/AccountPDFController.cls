@@ -65,15 +65,20 @@ public class AccountPDFController {
         catch (Exception e) {
             reportPdf = Blob.valueOf(e.getMessage());
         }
-        
-         ContentVersion con = new ContentVersion();
-         con.Title = this.name+' ActivityReport '+System.now()+'.pdf';
-         con.VersionData = reportPDF;
-         con.PathOnClient = this.name+' ActivityReport '+System.now()+'.pdf';
-         con.ContentLocation = 'S';
-         
-         insert con;
-         system.debug('file : '+con);
+        	
+         String fileName = this.name+' ActivityReport '+System.now().format('yyyy-MM-dd HH:mm:ss');
+         String Requestcode = FileRequestPDF.sendPDF(reportPdf,fileName);
+         if(Requestcode == '200'){
+             ContentVersion con = new ContentVersion();
+             con.Title = fileName+'.pdf';
+             con.VersionData = reportPDF;
+             con.PathOnClient = fileName+'.pdf';
+             con.ContentLocation = 'S';        
+             insert con;
+         } else {
+           	ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Error creating PDF'));
+    		return null;
+         }
          PageReference FilePage = new PageReference('/lightning/o/ContentDocument/home');
          FilePage.setRedirect(true);
 

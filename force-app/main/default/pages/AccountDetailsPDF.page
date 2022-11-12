@@ -1,4 +1,6 @@
-<apex:page title="Details" controller="AccountPDFController" >
+<apex:page title="Details" controller="AccountPDFController" showHeader="false" >
+    <apex:slds />
+    <br/>
     <apex:form >
         <div style="text-align:center;">
             <apex:outputLabel > Enter name for User Report </apex:outputLabel>
@@ -13,7 +15,7 @@
         </div>
         <br/>
     </apex:form> 
-      
+    <apex:pageMessages ></apex:pageMessages>
     <apex:form >
         <apex:pageBlock id="show">            
             <apex:pageBlockTable frame="border" value="{!users}" var="u" rendered="{!IF(users.empty,false,true)}">
