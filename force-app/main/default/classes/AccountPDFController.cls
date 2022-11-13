@@ -11,6 +11,10 @@ public class AccountPDFController {
         return UserInfo.getName();
     }
     
+    public void setname(String username){
+        name = username;
+    }
+    
     public AccountPDFController(){
         data = 'Select a User';
         history = new List<LoginHistory>();
@@ -22,24 +26,21 @@ public class AccountPDFController {
         user.LastName = UserInfo.getLastName();
         user.Email = UserInfo.getUserEmail();
         tempUser.add(user);
-        this.name = UserInfo.getName();
+        name = UserInfo.getName();
         users = tempUser;
-    }
-    
-    public void setname(String username){
-        this.name = username;
     }
     
     public void allvalues(){
         data = 'Select a User';
         history = new List<LoginHistory>();
-        String newSearch = '%'+this.name+'%';
-        users = [SELECT ID, FirstName, LastName, Email,CompanyName,Profile.name, Userrole.name  FROM USER WHERE NAME LIKE :newSearch];
+        String newSearch = '%'+name+'%';
+        users = [SELECT ID, FirstName, LastName,Name, Email,CompanyName,Profile.name, Userrole.name  FROM USER WHERE NAME LIKE :newSearch];
         system.debug('user '+users);
     }
     
     public void sendReport(){
-        users = [SELECT ID, FirstName, LastName, Email,CompanyName,Profile.name, Userrole.name  FROM USER WHERE ID = :this.id];
+        users = [SELECT ID, FirstName, LastName,Name, Email,CompanyName,Profile.name, Userrole.name  FROM USER WHERE ID = :this.id];
+        name = users[0].Name;
         Map<ID,LoginHistory> hisTemp = new Map<ID,LoginHistory>();
         history = new List<LoginHistory>();
         loginGeo = new List<LoginGeo>();
@@ -66,7 +67,7 @@ public class AccountPDFController {
             reportPdf = Blob.valueOf(e.getMessage());
         }
         	
-         String fileName = this.name+' ActivityReport '+System.now().format('yyyy-MM-dd HH:mm:ss');
+         String fileName = name+' ActivityReport '+System.now().format('yyyy-MM-dd HH:mm:ss');
          String Requestcode = FileRequestPDF.sendPDF(reportPdf,fileName);
          if(Requestcode == '200'){
              ContentVersion con = new ContentVersion();
