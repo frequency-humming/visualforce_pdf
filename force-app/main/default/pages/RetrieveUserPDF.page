@@ -40,7 +40,7 @@
                 <apex:column value="{!report}" />
                 <apex:column >
                     <apex:facet name="header">Select a Report</apex:facet>
-                    <apex:commandButton value="Retrieve Report" action="{!retrieveReport}" reRender="userData">
+                    <apex:commandButton value="Retrieve Report" action="{!sendReport}" reRender="userData">
                         <apex:param name="reportName" value="{!report}" assignTo="{!fileName}"/>
                     </apex:commandButton>
                 </apex:column>

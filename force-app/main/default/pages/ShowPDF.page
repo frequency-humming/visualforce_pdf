@@ -1,0 +1,3 @@
+<apex:page title="PDF" action="{!makeRequest}" controller="ShowPDFController" >
+    <iframe src="data:application/pdf;base64,{!PDF}" allowfullscreen="true" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+</apex:page>

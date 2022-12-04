@@ -53,5 +53,23 @@ public class FileRequestPDF {
         	parseXML(child,name);
         }        
     }
+    
+    public static String getPDF(String Filename){
+        String path = '/docs/'+Filename;  
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setMethod('GET');
+        request.setEndpoint('callout:Aws'+path);
+        request.setHeader('Content-Type','application/pdf');
+        HttpResponse response = http.send(request);
+        if(response.getStatusCode() != 200){
+            System.debug('Status code : '+response.getStatusCode()+' '+response.getStatus());
+            return response.getBody();
+        } else {
+            String file = EncodingUtil.base64Encode(response.getBodyAsBlob());
+            system.debug('name  : '+Filename);
+            return file;
+        }
+    }
 
 }
